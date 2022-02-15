@@ -11,6 +11,7 @@ const $propertiesContainer = document.querySelector('#properties-container');
 
 const modeler = new Modeler({
   container: $modelerContainer,
+  // 绑定一个自定义的元数据
   moddleExtensions: {
     custom: customModdleExtension
   },
@@ -19,6 +20,7 @@ const modeler = new Modeler({
   }
 });
 
+// 通过modeler来跟图表进行数据同步
 const propertiesPanel = new PropertiesPanel({
   container: $propertiesContainer,
   modeler

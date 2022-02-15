@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import './PropertiesView.css';
 
-
+// 属性面板类
 export default class PropertiesView extends Component {
 
   constructor(props) {
@@ -22,8 +22,9 @@ export default class PropertiesView extends Component {
       modeler
     } = this.props;
 
+    // 当选择项改变时
+    // e => {type,oldSelection,newSelection}
     modeler.on('selection.changed', (e) => {
-
       const {
         element
       } = this.state;
@@ -34,7 +35,8 @@ export default class PropertiesView extends Component {
       });
     });
 
-
+    // 当element改变时
+    // e => {element,gfx,type}
     modeler.on('element.changed', (e) => {
 
       const {
@@ -49,7 +51,7 @@ export default class PropertiesView extends Component {
         return;
       }
 
-      // update panel, if currently selected element changed
+      // 如果当前选中的element改变了，则更新panel
       if (element.id === currentElement.id) {
         this.setState({
           element
@@ -94,6 +96,7 @@ export default class PropertiesView extends Component {
 }
 
 
+// element属性组件
 function ElementProperties(props) {
 
   let {
@@ -108,17 +111,20 @@ function ElementProperties(props) {
   function updateName(name) {
     const modeling = modeler.get('modeling');
 
+    // 简单的更新label
     modeling.updateLabel(element, name);
   }
 
   function updateTopic(topic) {
     const modeling = modeler.get('modeling');
 
+    // 复杂一点的元属性更新
     modeling.updateProperties(element, {
       'custom:topic': topic
     });
   }
 
+  // 使当前element变为MessageEvent
   function makeMessageEvent() {
 
     const bpmnReplace = modeler.get('bpmnReplace');
@@ -129,6 +135,7 @@ function ElementProperties(props) {
     });
   }
 
+  // 使当前element变为ServiceTask
   function makeServiceTask(name) {
     const bpmnReplace = modeler.get('bpmnReplace');
 
@@ -137,6 +144,7 @@ function ElementProperties(props) {
     });
   }
 
+  // 附加一个Timeout
   function attachTimeout() {
     const modeling = modeler.get('modeling');
     const autoPlace = modeler.get('autoPlace');
@@ -161,12 +169,14 @@ function ElementProperties(props) {
     selection.select(taskShape);
   }
 
+  // 判断是否为TimerEventDefinition
   function isTimeoutConfigured(element) {
     const attachers = element.attachers || [];
 
     return attachers.some(e => hasDefinition(e, 'bpmn:TimerEventDefinition'));
   }
 
+  // 通用的附加方法
   function append(element, attrs) {
 
     const autoPlace = modeler.get('autoPlace');
@@ -176,6 +186,7 @@ function ElementProperties(props) {
 
     return autoPlace.append(element, shape);
   };
+
 
   return (
     <div className="element-properties" key={ element.id }>
@@ -206,17 +217,17 @@ function ElementProperties(props) {
 
         {
           is(element, 'bpmn:Task') && !is(element, 'bpmn:ServiceTask') &&
-            <button onClick={ makeServiceTask }>Make Service Task</button>
+            <button onClick={ makeServiceTask }>变为 Service Task</button>
         }
 
         {
           is(element, 'bpmn:Event') && !hasDefinition(element, 'bpmn:MessageEventDefinition') &&
-            <button onClick={ makeMessageEvent }>Make Message Event</button>
+            <button onClick={ makeMessageEvent }>变为 Message Event</button>
         }
 
         {
           is(element, 'bpmn:Task') && !isTimeoutConfigured(element) &&
-            <button onClick={ attachTimeout }>Attach Timeout</button>
+            <button onClick={ attachTimeout }>附加一个 Timeout</button>
         }
       </fieldset>
     </div>
@@ -225,7 +236,7 @@ function ElementProperties(props) {
 
 
 // helpers ///////////////////
-
+// 通用的判断方法
 function hasDefinition(event, definitionType) {
 
   const definitions = event.businessObject.eventDefinitions || [];

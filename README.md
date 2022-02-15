@@ -4,32 +4,29 @@ This example demonstrates a custom properties panel for [bpmn-js](https://github
 
 ![Demo Screenshot](./resources/screenshot.png)
 
-## About
+## 关于
 
-The component [`PropertiesView`](https://github.com/bpmn-io/bpmn-js-example-react-properties-panel/blob/master/app/properties-panel/PropertiesView.js) implements the properties panel. 
+这个组件 [`PropertiesView`](https://github.com/bpmn-io/bpmn-js-example-react-properties-panel/blob/master/app/properties-panel/PropertiesView.js) 实现了属性面板.
 
-The component is mounted via standard React utilities and receives the BPMN modeler instance as props:
+这个组件已经通过标准的 React 工具加载，并且接收 BPMN modeler 实例作为 props：
 
 ```js
-ReactDOM.render(
-  <PropertiesView modeler={ modeler } />,
-  container
-);
+ReactDOM.render(<PropertiesView modeler={modeler} />, container);
 ```
 
-As part of its life-cycle hooks it hooks up with bpmn-js change and selection events to react to editor changes:
+作为其生命周期钩子的一部分，它与 bpmn-js change 和 selection 事件挂钩，以对编辑器更改做出响应：
 
 ```js
 class PropertiesView extends React.Component {
 
   ...
-  
+
   componentDidMount() {
-  
+
     const {
        modeler
     } = this.props;
-    
+
     modeler.on('selection.changed', (e) => {
       this.setElement(e.newSelection[0]);
     });
@@ -42,19 +39,19 @@ class PropertiesView extends React.Component {
 }
 ```
 
-Rendering the component we may display element properties and apply changes:
+渲染组件，我们可以展示 element 的属性并且进行修改：
 
 ```js
 class PropertiesView extends React.Component {
-  
+
   ...
-  
+
   render() {
-  
+
     const {
       element
     } = this.state;
-    
+
     return (
       <div>
         <fieldset>
@@ -71,24 +68,23 @@ class PropertiesView extends React.Component {
       </div>
     );
   }
-  
+
   updateName(newName) {
-  
+
     const {
       element
     } = this.state;
-    
-    const { 
+
+    const {
       modeler
     } = this.props;
-    
+
     const modeling = modeler.get('modeling');
-    
+
     modeling.updateLabel(element, newName);
   }
 }
 ```
-
 
 ## Run the Example
 
@@ -96,7 +92,6 @@ class PropertiesView extends React.Component {
 npm install
 npm start
 ```
-
 
 ## License
 
