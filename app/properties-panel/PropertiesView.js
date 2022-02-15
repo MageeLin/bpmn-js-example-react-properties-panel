@@ -191,12 +191,12 @@ function ElementProperties(props) {
   return (
     <div className="element-properties" key={ element.id }>
       <fieldset>
-        <label>id</label>
+        <label>编号</label>
         <span>{ element.id }</span>
       </fieldset>
 
       <fieldset>
-        <label>name</label>
+        <label>名称</label>
         <input value={ element.businessObject.name || '' } onChange={ (event) => {
           updateName(event.target.value)
         } } />
@@ -205,7 +205,7 @@ function ElementProperties(props) {
       {
         is(element, 'custom:TopicHolder') &&
           <fieldset>
-            <label>topic (custom)</label>
+            <label>主题 (custom)</label>
             <input value={ element.businessObject.get('custom:topic') } onChange={ (event) => {
               updateTopic(event.target.value)
             } } />
@@ -213,7 +213,7 @@ function ElementProperties(props) {
       }
 
       <fieldset>
-        <label>actions</label>
+        <label>行为</label>
 
         {
           is(element, 'bpmn:Task') && !is(element, 'bpmn:ServiceTask') &&
